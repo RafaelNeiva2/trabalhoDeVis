@@ -1,7 +1,7 @@
 import { Taxi } from "./taxi";
 import { loadChart, clearChart } from './plot';
 
-// Supondo que este código será executado após o DOM estar carregado
+
 document.addEventListener('DOMContentLoaded', () => {
     const chartsGrid = document.querySelector('.charts-grid');
     const chartCards = document.querySelectorAll('.chart-card');
@@ -17,12 +17,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const totalSlides = chartCards.length;
 
     function updateCarousel() {
-        const cardWidth = chartCards[0].offsetWidth; // Assume que todos os cards têm a mesma largura
-                                                     // Para ser mais robusto, pegue a largura do viewport
-        // const cardWidth = document.querySelector('.carousel-viewport').offsetWidth;
+        const cardWidth = chartCards[0].offsetWidth; 
         chartsGrid.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
 
-        // Habilitar/desabilitar botões
+      
         prevButton.disabled = currentIndex === 0;
         nextButton.disabled = currentIndex === totalSlides - 1;
     }
@@ -41,21 +39,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Inicializa o carrossel
+    
     updateCarousel();
 
-    // Opcional: Atualizar em redimensionamento da janela, se as larguras dos cards mudarem dinamicamente
-    // de forma complexa (geralmente min-width: 100% cuida disso)
-    let resizeTimer;
+   let resizeTimer;
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(() => {
-            // Recalcular cardWidth se necessário e atualizar
-            // Se você usou min-width: 100% no .chart-card,
-            // a largura dele já se ajusta ao .carousel-viewport.
-            // Apenas precisa garantir que o transformX seja recalculado.
             updateCarousel();
-        }, 250); // Debounce para evitar execuções excessivas
+        }, 250); 
     });
 });
 
@@ -73,7 +65,7 @@ function setupEventListeners(data) {
         loadBtn.disabled = true;
         loadBtn.textContent = "Carregando...";
         
-        // Limpar os gráficos antes de carregar novos dados
+        
         clearChart();
         
         try {
@@ -95,10 +87,10 @@ function setupEventListeners(data) {
 
 window.onload = async () => {
     try {
-        const mainContainer = document.querySelector('.main-container'); // Usado para o loadingMsg
-        const body = document.body; // Usaremos o body para toasts, para garantir o contexto de viewport
+        const mainContainer = document.querySelector('.main-container'); 
+        const body = document.body; 
 
-        // Adicionar mensagem de carregamento temporária (mantendo o estilo original)
+        
         const loadingMsg = document.createElement('div');
         loadingMsg.style.textAlign = 'center';
         loadingMsg.style.padding = '20px';
@@ -141,8 +133,6 @@ window.onload = async () => {
         });
 
         if (validData.length === 0) {
-            // Remove a mensagem de carregamento ANTES de lançar o erro
-            // para que o toast de erro não apareça sobre ela.
             if (mainContainer.contains(loadingMsg)) {
                 mainContainer.removeChild(loadingMsg);
             }
@@ -150,50 +140,49 @@ window.onload = async () => {
         }
 
         if (mainContainer.contains(loadingMsg)) {
-            mainContainer.removeChild(loadingMsg); // Remove a mensagem de carregamento
+            mainContainer.removeChild(loadingMsg); 
         }
 
-        // --- NOVO LAYOUT PARA infoDiv (Toast de Sucesso/Info) ---
+       
         const infoDiv = document.createElement('div');
         infoDiv.style.position = 'fixed';
         infoDiv.style.bottom = '20px';
         infoDiv.style.right = '20px';
         infoDiv.style.padding = '15px 20px';
-        infoDiv.style.backgroundColor = '#5F8B4C'; // Verde sucesso
+        infoDiv.style.backgroundColor = '#5F8B4C'; 
         infoDiv.style.color = 'white';
         infoDiv.style.border = 'none';
         infoDiv.style.borderRadius = '8px';
         infoDiv.style.boxShadow = '0 4px 15px rgba(0,0,0,0.2)';
-        infoDiv.style.zIndex = '1050'; // Para garantir que fique por cima
+        infoDiv.style.zIndex = '1050'; 
         infoDiv.style.maxWidth = '350px';
         infoDiv.style.textAlign = 'left';
         infoDiv.innerHTML = `
             <strong>Dados Carregados!</strong><br>
             ${validData.length} corridas de táxi encontradas para os primeiros 6 meses de 2023.
         `;
-        body.appendChild(infoDiv); // Adiciona ao body para posicionamento de viewport
+        body.appendChild(infoDiv); 
 
-        // Opcional: fazer o toast desaparecer após alguns segundos
+        
         setTimeout(() => {
             if (body.contains(infoDiv)) {
                 infoDiv.style.transition = 'opacity 0.5s ease-out';
                 infoDiv.style.opacity = '0';
                 setTimeout(() => body.removeChild(infoDiv), 500);
             }
-        }, 7000); // Desaparece após 7 segundos
+        }, 7000); 
 
         setupEventListeners(validData);
         await loadChart(validData);
 
     } catch (error) {
         const body = document.body;
-        // Tenta remover a mensagem de carregamento se ela ainda existir
         const loadingMsgInMain = document.querySelector('.main-container div');
         if (loadingMsgInMain && loadingMsgInMain.innerHTML.includes('Carregando dados')) {
             loadingMsgInMain.remove();
         }
 
-        // --- NOVO LAYOUT PARA errorDiv (Toast de Erro) ---
+        
         const errorDiv = document.createElement('div');
         errorDiv.style.position = 'fixed';
         errorDiv.style.bottom = '20px';

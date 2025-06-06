@@ -18,6 +18,7 @@ async function loadWeekdayPatternChart(data, margins) {
     const width = +svg.node().clientWidth - margins.left - margins.right;
     const height = +svg.node().clientHeight - margins.top - margins.bottom;
 
+
     const processedData = [];
     
     data.forEach(d => {
@@ -55,9 +56,9 @@ async function loadWeekdayPatternChart(data, margins) {
         .domain([0, maxCount * 1.1])
         .range([height, 0]);
 
-    // MODIFICAÇÃO AQUI
+    
     const xAxis = d3.axisBottom(xScale)
-        .ticks(24) // Sugere 24 marcadores, um para cada hora
+        .ticks(24)
         .tickFormat(d => `${d}h`);
     
     const groupX = svg.selectAll('#scatter-axisX').data([0]);
@@ -131,14 +132,29 @@ async function loadWeekdayPatternChart(data, margins) {
         .attr('stroke', '#38B2AC')
         .attr('stroke-width', 3);
 
+
+    
     cGroup.selectAll('.weekday-dot')
         .data(hourlyData)
         .join('circle')
         .attr('class', 'weekday-dot')
         .attr('cx', d => xScale(d.hour))
         .attr('cy', d => yScale(d.weekday))
-        .attr('r', 4)
-        .attr('fill', '#5F8B4C');
+        .attr('r', 5) 
+        .attr('fill', '#5F8B4C')
+        .on('mouseover', (event, d) => {
+            tooltip.transition().duration(200).style('opacity', 1);
+            tooltip.html(`<strong>Dia de Semana</strong><br>Hora: ${d.hour}h<br>Corridas: ${d.weekday}`)
+                .style('left', (event.pageX + 15) + 'px')
+                .style('top', (event.pageY - 28) + 'px');
+        })
+        .on('mousemove', (event) => {
+            tooltip.style('left', (event.pageX + 15) + 'px')
+                   .style('top', (event.pageY - 28) + 'px');
+        })
+        .on('mouseout', () => {
+            tooltip.transition().duration(500).style('opacity', 0);
+        });
 
     cGroup.selectAll('.weekend-dot')
         .data(hourlyData)
@@ -146,8 +162,22 @@ async function loadWeekdayPatternChart(data, margins) {
         .attr('class', 'weekend-dot')
         .attr('cx', d => xScale(d.hour))
         .attr('cy', d => yScale(d.weekend))
-        .attr('r', 4)
-        .attr('fill', '#38B2AC');
+        .attr('r', 5) 
+        .attr('fill', '#38B2AC')
+        .on('mouseover', (event, d) => {
+            tooltip.transition().duration(200).style('opacity', 1);
+            tooltip.html(`<strong>Fim de Semana</strong><br>Hora: ${d.hour}h<br>Corridas: ${d.weekend}`)
+                .style('left', (event.pageX + 15) + 'px')
+                .style('top', (event.pageY - 28) + 'px');
+        })
+        .on('mousemove', (event) => {
+            tooltip.style('left', (event.pageX + 15) + 'px')
+                   .style('top', (event.pageY - 28) + 'px');
+        })
+        .on('mouseout', () => {
+            tooltip.transition().duration(500).style('opacity', 0);
+        });
+        
 
     const legend = cGroup.selectAll('.legend').data([0]).join('g')
         .attr('class', 'legend')
@@ -183,6 +213,7 @@ async function loadWeekdayPatternChart(data, margins) {
                 .style('font-size', '12px')
                 .style('fill', '#333');
         });
+
 }
 
 
