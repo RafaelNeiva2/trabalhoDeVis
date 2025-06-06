@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Green Taxis NYC 2023</title>
+    <link rel="stylesheet" href="index.css">
+    </head>
+<body>
+    <div class="dashboard-wrapper">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1>Vizualização de Dados</h1>
+                <p class="platform-subtitle">Green Taxis NYC</p>
+            </div>
+
+            <nav class="sidebar-nav">
+                <p class="students">Rafael Neiva, Pedro Camargos, Guilherme Coelho</p>
+            </nav>
+
+            <div class="sidebar-controls">
+                <button id="loadBtn" class="btn btn-primary">Carregar Gráficos</button>
+                <button id="clearBtn" class="btn btn-secondary">Limpar Gráficos</button>
+            </div>
+
+            <footer class="sidebar-footer">
+                <p>&copy; Universidade Federal Fluminense</p>
+            </footer>
+        </aside>
+
+        <main class="main-container">
+            <section class="content-header">
+                <h2>Visualizações e Análises</h2>
+            </section>
+
+            <div class="carousel-container">
+                <button class="carousel-button carousel-button-prev" aria-label="Gráfico Anterior">&#10094;</button>
+                <div class="carousel-viewport">
+                    <div class="charts-grid"> <article class="chart-card">
+                            <header class="chart-card-header">
+                                <h3>A. Padrão de Corridas em Dias de Semana vs Fim de Semana</h3>
+                            </header>
+                            <div class="chart-card-body">
+                                <div class="chart-visualization-area">
+                                    <svg id="scatterPlot"></svg>
+                                </div>
+                                <div class="chart-description">
+                                    <h4>Escolha do tipo de gráfico:</h4>
+                                    <p><strong>Visualização:</strong> O gráfico de linhas foi escolhido por ser a ferramenta mais eficaz e 
+                                        direta para comparar as duas tendências ao longo do tempo. </p>
+                                    <p><strong>Justificativa:</strong>A forma da linha facilita a identificação de picos (horários de rush) e vales (períodos de baixa demanda), que é o objetivo central da análise. 
+                                        Colocar as duas linhas no mesmo eixo permite uma comparação imediata. É fácil ver qual padrão é mais intenso em cada hora e os momentos exatos em que eles se cruzam.</p>
+                                </div>
+                            </div>
+                            <footer class="analysis-details">
+                                <h4>Análise Detalhada (A):</h4>
+                                <ul>
+                                    <li><strong>Padrão dos Dias de Semana:</strong> Dias de Semana (Linha Verde)
+Alto Volume: A quantidade de corridas durante os dias de semana é significativamente maior do que nos fins de semana, especialmente durante o horário comercial.
+Picos de Horário de Rush: O padrão é marcado por picos muito claros que correspondem aos horários de deslocamento da população.
+Pico da Manhã: Há um aumento extremamente acentuado a partir de 3h as 4h(~80 - ~230), atingindo um pico inicial muito forte às 4h. A demanda permanece alta durante toda a manhã.
+Pico do Meio-Dia: O ponto mais alto de todo o gráfico ocorre por volta das 12h e 13h, sugerindo uma intensa atividade na hora do almoço.
+Queda Drástica: Após as 17h, há uma queda acentuada e contínua no número de corridas, que volta a níveis mínimos durante a madrugada.
+Conclusão: O padrão dos dias de semana é claramente impulsionado por compromissos profissionais e rotinas de trabalho (ida ao trabalho, horário de almoço e volta para casa).</li>
+                                    <li><strong>Padrão dos Fins de Semana:</strong> Volume Menor e Distribuído: O volume de corridas é consideravelmente menor. A atividade é mais distribuída ao longo do dia, sem os picos agudos vistos nos dias de semana.
+Início Lento: A manhã de fim de semana começa com pouca atividade, que aumenta de forma gradual e constante.
+Pico à Tarde: A maior concentração de corridas ocorre durante a tarde, entre 12h e 17h, com um pico suave por volta das 13h. Esse padrão sugere atividades de lazer, passeios e encontros sociais.
+Atividade na Madrugada: Curiosamente, as primeiras horas do dia (0h-1h) registram mais corridas no fim de semana do que nos dias de semana, indicando uma vida noturna mais ativa.</li>
+                                    </ul>
+                            </footer>
+                        </article>
+
+                        <article class="chart-card">
+                            <header class="chart-card-header">
+                                <h3>B. Relação entre Valor da Gorjeta e Horário</h3>
+                            </header>
+                            <div class="chart-card-body">
+                                <div class="chart-visualization-area">
+                                    <svg id="barChart"></svg>
+                                </div>
+                                <div class="chart-description">
+                                    <p><strong>Visualização:</strong> Gráfico de barras com gradiente de cores mostrando o valor médio das gorjetas por hora do dia.</p>
+                                    <p><strong>Justificativa:</strong> Barras visualizam valores absolutos, gradiente destaca níveis de gorjetas ao longo do dia.</p>
+                                </div>
+                            </div>
+                            <footer class="analysis-details">
+                                <h4>Análise Detalhada (B):</h4>
+                                <ul>
+                                    <li><strong>Pico de Gorjetas:</strong> 19h é o horário com maior média de gorjeta (>R$2,6).</li>
+                                    <li><strong>Vales de Gorjetas:</strong> Menores médias às 0h, 3h, 17h, e entre 21h–23h.</li>
+                                    <li><strong>Regularidade Diurna:</strong> Manhã e tarde com pouca variação na gorjeta (médias entre R$1,8 e R$2,2). Picos e vales pontuais.</li>
+                                </ul>
+                            </footer>
+                        </article>
+                        </div>
+                </div>
+                <button class="carousel-button carousel-button-next" aria-label="Próximo Gráfico">&#10095;</button>
+            </div>
+            </main>
+    </div>
+
+    <div id="tooltip"></div>
+
+    <script type="module" src="src/main.js"></script>
+</body>
+</html>
